@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Subscribtion page</title>
+	<link rel="stylesheet" type="text/css">
+</head>
+<body>
+	<?php
+	require("gurated.php");
+session_start();
+	if (isset($_REQUEST['username'], $_REQUEST['email'], $_REQUEST['password'])) {
+		$username = stripslashes($_REQUEST['username']);
+		$username = mysqli_real_escape_string($conn, $username); 
+		$email = stripslashes($_REQUEST['email']);
+		$email = mysqli_real_escape_string($conn, $email);
+		$password = stripcslashes($_REQUEST['password']);
+		$password = mysqli_real_escape_string($conn, $password);
+		$query = "INSERT into `users` (username, email, password)
+              VALUES ('$username', '$email', '".hash('sha256', $password)."')";
+
+	$res = mysqli_query($conn, $query);
+    if($res){
+       echo "<div class='success'>
+             <h3>Vous êtes inscrit avec succès.</h3>
+             <p>Click here to <a href='Connexion.php'>connect</a></p>
+			 </div>";
+    }
+}else{
+?>
+<form class="box" action="" method="post">
+	<h1 class="box-logo box-title"><a href=><b>Cozastore</b></a></h1>
+    <h1 class="box-title">Subscribe</h1>
+	<label><b>Username</b><input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required></label>
+	</br>
+	</br>
+    <label><b>Electronic Adresse</b><input type="text" class="box-input" name="email" placeholder="Email" required /></label>
+    </br>
+    </br>
+    <label><b>Password</b><input type="password" class="box-input" name="password" placeholder="Mot de passe" required /></label>
+    </br>
+	</br>
+    <input type="submit" name="submit" value="SUBSCRIBE" class="box-button" />
+    <p class="box-register">Already connected? <a href="Connexion.php">Connect here</a></p>
+</form>
+<?php } ?>
+
+</body>
+</html>
